@@ -23,16 +23,17 @@ app.get("/cadcliente", function (req, res) {
   res.render("formCliente");
 });
 
-app.post("/addcliente", function (req, res) {
+app.post('/addcliente', function(req, res) {
   Cliente.create({
-    nome: req.boby.nome,
-    nascimento: req.body.nascimento,
-    cidade: req.body.cidade,
-    telefone: req.body.telefone
+  nome: req.body.nome,
+  nascimento: req.body.nascimento,
+  cidade: req.body.cidade,
+  telefone: req.body.telefone
   }).then(function(){
-    res.send("Cliente cadastrado com sucesso!")
+  res.send("Cliente cadastrado com sucesso!")
   })
-})
+ })
+ 
 
 // iniciar o servidor
 app.listen(port, () => {
@@ -42,6 +43,8 @@ app.listen(port, () => {
 (async () => {
   try {
     const resultado = await database.sync();
+    const clientes = await Cliente.findAll();
+    console.log("Lista de Cliente \n", clientes)
   } catch (error) {
     console.log(error);
   }
