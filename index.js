@@ -5,7 +5,7 @@ const Cliente = require("./models/cliente");
 // criando o servidor
 const express = require("express");
 const app = express();
-const port = 9443;
+const port = 3000;
 const bobyParser = require("body-parser");
 
 //setar os valores da view w engine
@@ -18,9 +18,21 @@ app.use(express.urlencoded({ extended: true }));
 app.get("/", (req, res) => {
   res.send("Bem vindo ao cadastro de cliente!");
 });
+
 app.get("/cadcliente", function (req, res) {
   res.render("formCliente");
 });
+
+app.post("/addcliente", function (req, res) {
+  Cliente.create({
+    nome: req.boby.nome,
+    nascimento: req.body.nascimento,
+    cidade: req.body.cidade,
+    telefone: req.body.telefone
+  }).then(function(){
+    res.send("Cliente cadastrado com sucesso!")
+  })
+})
 
 // iniciar o servidor
 app.listen(port, () => {
@@ -30,7 +42,6 @@ app.listen(port, () => {
 (async () => {
   try {
     const resultado = await database.sync();
-    console.log(resultado);
   } catch (error) {
     console.log(error);
   }
